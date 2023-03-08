@@ -1,7 +1,8 @@
 import pygame
-from tiles import Tile, Blue_Portal, Orange_Portal
+from tiles import Tile
 from settings import tile_size, screen_width, screen_height
 from player import Player
+from portals import Blue_Portal, Orange_Portal
 
 class Level:
     def __init__(self,level_data,surface):
@@ -62,7 +63,6 @@ class Level:
 
     def vertical_movement_collision(self):
         player = self.player.sprite
-        blue_Portal = self.blue_portal.sprite
         player.apply_gravity()
 
         for sprite in self.tiles.sprites():
@@ -70,23 +70,44 @@ class Level:
                 if player.direction.y > 0:
                     player.rect.bottom = sprite.rect.top
                     player.direction.y = 0
+                    
                 elif player.direction.y < 0:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0
-        
-        for sprite in self.orange_portal.sprites():
-            if sprite.rect.colliderect(player.rect):
-                pass
+    
+    def portal_collision(self):
+        player = self.player.sprite
+        orange_portal = self.orange_portal.sprite
+        blue_portal = self.blue_portal.sprite
+
+        if blue_portal.rect.colliderect(player.rect):
+           player.rect.x = orange_portal.rect.x                
+           player.rect.y = orange_portal.rect.y
+
+        if orange_portal.rect.colliderect(player.rect):
+            player.rect.x = blue_portal.rect.x
+            player.rect.y = blue_portal.rect.y
+
+        # for sprite in self.tiles.sprites():
+            # if sprite.rect.colliderect(player.rect):
+            #     if player.direction.y > 0:
+            #         player.blue_teleportable == True
+            #         player.orange_teleportable == True
+
 
     def run(self):
 
         self.tiles.update(self.world_shift)
         self.tiles.draw(self.display_surface)
-        self.blue_portal.draw(self.display_surface)
+
         self.blue_portal.update(self.world_shift)
-        self.orange_portal.draw(self.display_surface)
+        self.blue_portal.draw(self.display_surface)
         self.orange_portal.update(self.world_shift)
+        self.orange_portal.draw(self.display_surface)
+
         self.scroll_x()
+
+        self.portal_collision()
 
         self.player.update()
         self.horizontal_movement_collision()
