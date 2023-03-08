@@ -1,5 +1,5 @@
 import pygame
-from tiles import Tile
+from tiles import Tile, Blue_Portal, Orange_Portal
 from settings import tile_size, screen_width, screen_height
 from player import Player
 
@@ -12,6 +12,8 @@ class Level:
     def setup_level(self,layout):
         self.tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
+        self.blue_portal = pygame.sprite.GroupSingle()
+        self.orange_portal = pygame.sprite.GroupSingle()
 
         for row_index,row in enumerate(layout):
           for col_index,cell in enumerate(row):
@@ -24,6 +26,13 @@ class Level:
             if cell == "P":
                 player_sprite = Player((x,y))
                 self.player.add(player_sprite)
+            if cell == "B":
+                blue_portal_sprite = Blue_Portal((x,y))
+                self.blue_portal.add(blue_portal_sprite)
+            if cell == "O":
+                orange_portal_sprite = Orange_Portal((x,y))
+                self.orange_portal.add(orange_portal_sprite)
+
     
     def scroll_x(self):
         player = self.player.sprite
@@ -53,6 +62,7 @@ class Level:
 
     def vertical_movement_collision(self):
         player = self.player.sprite
+        blue_Portal = self.blue_portal.sprite
         player.apply_gravity()
 
         for sprite in self.tiles.sprites():
@@ -63,11 +73,19 @@ class Level:
                 elif player.direction.y < 0:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0
+        
+        for sprite in self.orange_portal.sprites():
+            if sprite.rect.colliderect(player.rect):
+                pass
 
     def run(self):
 
         self.tiles.update(self.world_shift)
         self.tiles.draw(self.display_surface)
+        self.blue_portal.draw(self.display_surface)
+        self.blue_portal.update(self.world_shift)
+        self.orange_portal.draw(self.display_surface)
+        self.orange_portal.update(self.world_shift)
         self.scroll_x()
 
         self.player.update()
