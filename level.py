@@ -75,25 +75,25 @@ class Level:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0
     
-    def portal_collision(self):
+    def blue_portal_collision(self):
         player = self.player.sprite
         orange_portal = self.orange_portal.sprite
         blue_portal = self.blue_portal.sprite
 
         if blue_portal.rect.colliderect(player.rect):
-           player.rect.x = orange_portal.rect.x                
-           player.rect.y = orange_portal.rect.y
+            player.rect.x = orange_portal.rect.x
+            player.rect.y = orange_portal.rect.y
+
+            
+    def orange_portal_collision(self):
+        player = self.player.sprite
+        orange_portal = self.orange_portal.sprite
+        blue_portal = self.blue_portal.sprite
 
         if orange_portal.rect.colliderect(player.rect):
             player.rect.x = blue_portal.rect.x
             player.rect.y = blue_portal.rect.y
-
-        # for sprite in self.tiles.sprites():
-            # if sprite.rect.colliderect(player.rect):
-            #     if player.direction.y > 0:
-            #         player.blue_teleportable == True
-            #         player.orange_teleportable == True
-
+                    
 
     def run(self):
 
@@ -102,12 +102,14 @@ class Level:
 
         self.blue_portal.update(self.world_shift)
         self.blue_portal.draw(self.display_surface)
+
         self.orange_portal.update(self.world_shift)
         self.orange_portal.draw(self.display_surface)
 
         self.scroll_x()
 
-        self.portal_collision()
+        self.blue_portal_collision()
+        self.orange_portal_collision()
 
         self.player.update()
         self.horizontal_movement_collision()
