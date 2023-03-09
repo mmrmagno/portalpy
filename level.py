@@ -75,24 +75,56 @@ class Level:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0
     
-    def blue_portal_collision(self):
+    def portal_collision(self):
         player = self.player.sprite
         orange_portal = self.orange_portal.sprite
         blue_portal = self.blue_portal.sprite
-
+        
         if blue_portal.rect.colliderect(player.rect):
-            player.rect.x = orange_portal.rect.x
-            player.rect.y = orange_portal.rect.y
-
+            # if player.direction.x > 0:
+                # player.rect.x = orange_portal.rect.x + 30
+                # player.rect.y = orange_portal.rect.y  
+            # elif player.direction.x < 0:
+                # player.rect.x = orange_portal.rect.x - 30
+                # player.rect.y = orange_portal.rect.y
             
-    def orange_portal_collision(self):
-        player = self.player.sprite
-        orange_portal = self.orange_portal.sprite
-        blue_portal = self.blue_portal.sprite
+            # if player.direction.y < 0:
+                player.rect.x = orange_portal.rect.x
+                player.rect.y = orange_portal.rect.y + 25
+            
+            # # elif player.direction.y < 0:
+            #     player.rect.x = orange_portal.rect.x
+            #     player.rect.y = orange_portal.rect.y + 25
 
         if orange_portal.rect.colliderect(player.rect):
-            player.rect.x = blue_portal.rect.x
-            player.rect.y = blue_portal.rect.y
+            # if player.direction.x > 0:
+                # player.rect.x = blue_portal.rect.x + 30
+                # player.rect.y = blue_portal.rect.y
+            # elif player.direction.x < 0:
+                # player.rect.x = blue_portal.rect.x - 30
+                # player.rect.y = blue_portal.rect.y
+            
+            # if player.direction.y < 0:
+                player.rect.x = blue_portal.rect.x
+                player.rect.y = blue_portal.rect.y + 25
+            
+            # elif player.direction.y < 0:
+                # player.rect.x = blue_portal.rect.x
+                # player.rect.y = blue_portal.rect.y + 30
+
+    def get_input_map(self):
+        keys = pygame.key.get_pressed()
+        blue_portal = self.blue_portal.sprite
+        orange_portal = self.orange_portal.sprite
+
+        if keys[pygame.K_o]:
+            blue_portal.image = pygame.transform.rotate(blue_portal.image, 90)
+            orange_portal.image = pygame.transform.rotate(orange_portal.image, 90)
+
+            # blue_portal.image = pygame.image.load("assets/portals/h_blue_portal.png").convert()
+            # orange_portal.image = pygame.image.load("assets/portals/h_orange_portal.png").convert()
+            
+                
                     
 
     def run(self):
@@ -107,9 +139,9 @@ class Level:
         self.orange_portal.draw(self.display_surface)
 
         self.scroll_x()
+        self.get_input_map()
 
-        self.blue_portal_collision()
-        self.orange_portal_collision()
+        self.portal_collision()
 
         self.player.update()
         self.horizontal_movement_collision()
