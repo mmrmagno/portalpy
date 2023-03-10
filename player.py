@@ -11,17 +11,16 @@ class Player(pygame.sprite.Sprite):
         # movement
         self.direction = pygame.math.Vector2(0, 0)
         self.speed = 8
-        self.max_speed = 15
         self.gravity = 0.8
         self.jump_speed = -16
     
-    # def import_character_assets(self):
-    #     character_path = 'assets/player'
-    #     self.animations = {'idle':[], 'run':[], 'jump':[], 'fall':[]}
+    def import_character_assets(self):
+        character_path = 'assets/player'
+        self.animations = {'idle':[], 'run':[], 'jump':[], 'fall':[]}
 
-    #     for animation in self.animations.keys():
-    #         full_path = character_path + animation
-    #         self.animations[animation] = import_folder(full_path)
+        for animation in self.animations.keys():
+            full_path = character_path + animation
+            self.animations[animation] = import_folder(full_path)
 
 
     def get_input(self):
