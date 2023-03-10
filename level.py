@@ -65,6 +65,9 @@ class Level:
         player = self.player.sprite
         player.apply_gravity()
 
+        if player.direction.y > player.max_speed:
+            player.direction.y = player.max_speed
+
         for sprite in self.tiles.sprites():
             if sprite.rect.colliderect(player.rect):
                 if player.direction.y > 0:
@@ -81,36 +84,37 @@ class Level:
         blue_portal = self.blue_portal.sprite
         
         if blue_portal.rect.colliderect(player.rect):
-            # if player.direction.x > 0:
-                # player.rect.x = orange_portal.rect.x + 30
-                # player.rect.y = orange_portal.rect.y  
-            # elif player.direction.x < 0:
-                # player.rect.x = orange_portal.rect.x - 30
-                # player.rect.y = orange_portal.rect.y
+            if player.direction.x > 0:
+                player.rect.x = orange_portal.rect.x 
+                player.rect.y = orange_portal.rect.y  
+            elif player.direction.x < 0:
+                player.rect.x = orange_portal.rect.x 
+                player.rect.y = orange_portal.rect.y
             
-            # if player.direction.y < 0:
+            if player.direction.y < 0:
+                player.rect.x = orange_portal.rect.x
+                player.rect.y = orange_portal.rect.y
+            
+            elif player.direction.y > 0:
                 player.rect.x = orange_portal.rect.x
                 player.rect.y = orange_portal.rect.y + 25
-            
-            # # elif player.direction.y < 0:
-            #     player.rect.x = orange_portal.rect.x
-            #     player.rect.y = orange_portal.rect.y + 25
 
         if orange_portal.rect.colliderect(player.rect):
-            # if player.direction.x > 0:
-                # player.rect.x = blue_portal.rect.x + 30
-                # player.rect.y = blue_portal.rect.y
-            # elif player.direction.x < 0:
-                # player.rect.x = blue_portal.rect.x - 30
-                # player.rect.y = blue_portal.rect.y
+            if player.direction.x > 0:
+                player.rect.x = blue_portal.rect.x + 30
+                player.rect.y = blue_portal.rect.y
+
+            elif player.direction.x < 0:
+                player.rect.x = blue_portal.rect.x - 30
+                player.rect.y = blue_portal.rect.y
             
-            # if player.direction.y < 0:
+            if player.direction.y < 0:
                 player.rect.x = blue_portal.rect.x
-                player.rect.y = blue_portal.rect.y + 25
-            
-            # elif player.direction.y < 0:
-                # player.rect.x = blue_portal.rect.x
-                # player.rect.y = blue_portal.rect.y + 30
+                player.rect.y = blue_portal.rect.y
+
+            elif player.direction.y < 0:
+                player.rect.x = blue_portal.rect.x
+                player.rect.y = blue_portal.rect.y + 30
 
     def get_input_map(self):
         keys = pygame.key.get_pressed()
