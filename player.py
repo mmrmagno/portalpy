@@ -4,24 +4,26 @@ from support import import_folder
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
-        self.image = pygame.image.load("assets/player/idle/player.png").convert()
-        # self.image.fill('red')
+        self.import_character_assets()
+        self.frame_index = 0
+        self.animation_speed = 0.15
+        self.image = self.animations['idle'][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
         
         # movement
         self.direction = pygame.math.Vector2(0, 0)
         self.speed = 8
-        self.max_speed = 15
+        self.max_speed = 60
         self.gravity = 0.8
         self.jump_speed = -16
     
-    # def import_character_assets(self):
-    #     character_path = 'assets/player'
-    #     self.animations = {'idle':[], 'run':[], 'jump':[], 'fall':[]}
+    def import_character_assets(self):
+        character_path = 'assets/player/'
+        self.animations = {'idle':[], 'run':[], 'jump':[], 'fall':[]}
 
-    #     for animation in self.animations.keys():
-    #         full_path = character_path + animation
-    #         self.animations[animation] = import_folder(full_path)
+        for animation in self.animations.keys():
+            full_path = character_path + animation
+            self.animations[animation] = import_folder(full_path)
 
 
     def get_input(self):
