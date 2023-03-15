@@ -87,6 +87,7 @@ class Level:
             # if player.direction.x > 0:    
             player.rect.x = orange_portal.rect.x 
             player.rect.y = orange_portal.rect.y + 8
+            
             # elif player.direction.x < 0:
             #     player.rect.x = orange_portal.rect.x 
             #     player.rect.y = orange_portal.rect.y
@@ -103,6 +104,7 @@ class Level:
             # if player.direction.x > 0:
             player.rect.x = blue_portal.rect.x
             player.rect.y = blue_portal.rect.y + 8
+            player.image = pygame.transform.flip(player.image, True, True)
 
             # elif player.direction.x < 0:
             #     player.rect.x = blue_portal.rect.x - 30
